@@ -1,0 +1,28 @@
+﻿@model StringConverter.Models.ViewModel.AddRequest
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div>
+
+    <h1>AFS Text Translater</h1>
+
+
+</div>
+
+<div class="container py-5">
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">
+                Input Text
+            </label>
+            <input type="text" class="form-control" id="input" asp-for="InputText">
+        </div>
+
+        <div class="mb-3">
+
+            <button type="submit" class="btn btn-dark">Add</button>
+
+        </div>
+    </form>
+</div>
