@@ -47,25 +47,16 @@ namespace StringConverter.Controllers
         {
             var getData = new GetViewModel();
             var gets = (from get in _stringConverterDbContext.TblConvertStrings
-                        select new TblConvertString
-                        {
-                            UserIDpk = get.UserIDpk,
-                            DataField = get.DataField
-                        }) ; 
+                        select new TblConvertString {  DataField = get.DataField}) ; 
             getData.TblConvertStrings = gets;
 
             return View(getData);
         }
-
-       
-        public IActionResult GetUser()
-        {
-
-            return View();
-        }
-
+              
+      
         async Task<string?> TranslateText(string text)
         {
+            //TranslationResult res= new TranslationResult();
             try
             {
                 var result = await _httpClient.GetFromJsonAsync<TranslationResult>($"https://api.funtranslations.com/translate/leetspeak.json?text={text}");
@@ -77,28 +68,11 @@ namespace StringConverter.Controllers
             }
 
             return null;
-        }
-
-         
-                    
+        }                 
          
     }
 
-    public class TranslationResult
-    {
-        public int Total { get; set; }
-
-        public TranslationContents Contents { get; set; }
-
-        public class TranslationContents
-        {
-            public string Translated { get; set; }
-
-            public string Text { get; set; }
-
-            public string Translation { get; set; }
-        }
-    }
+    
 
    
 }
