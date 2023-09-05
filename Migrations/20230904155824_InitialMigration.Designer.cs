@@ -12,8 +12,8 @@ using StringConverter.Data;
 namespace StringConverter.Migrations
 {
     [DbContext(typeof(StringConverterDbContext))]
-    [Migration("20230712215812_IdentityMigration")]
-    partial class IdentityMigration
+    [Migration("20230904155824_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
