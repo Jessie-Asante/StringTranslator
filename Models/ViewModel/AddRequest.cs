@@ -2,6 +2,6 @@
 {
     public class AddRequest
     {
-        public string InputText { get; set; }
+        public string? InputText { get; set; } = string.Empty;
     }
 }

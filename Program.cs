@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using StringConverter.Data;
 using Microsoft.AspNetCore.Identity;
+using StringConverter.Data.Interfaces;
+using StringConverter.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StringConverterDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StringConverterConnectionString")));
@@ -11,7 +13,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IStringConverterRepository, StringConverterRepository>();
+builder.Services.AddScoped<ITranslateText,TranslateTexts>();
 builder.Services.AddHttpClient("StringHttpClient");
 var app = builder.Build();
 

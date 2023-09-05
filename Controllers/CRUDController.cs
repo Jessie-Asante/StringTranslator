@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using StringConverter.Data;
+using StringConverter.Data.Interfaces;
+using StringConverter.Data.Repositories;
 using StringConverter.Models.Domain;
 using StringConverter.Models.ViewModel;
 using System;
 using System.Net.Security;
+using System.Text.Json;
 
 namespace StringConverter.Controllers
 {
@@ -12,12 +16,14 @@ namespace StringConverter.Controllers
     public class CRUDController : Controller
     {
         private readonly StringConverterDbContext _stringConverterDbContext;
-        private readonly HttpClient _httpClient;
+        private readonly IStringConverterRepository _repository;
+        private readonly ITranslateText _translate;
 
-        public CRUDController(StringConverterDbContext stringConverterDbContext, IHttpClientFactory httpClientFactory) 
+        public CRUDController(StringConverterDbContext stringConverterDbContext,  StringConverterRepository repository, ITranslateText translate) 
         {
             _stringConverterDbContext = stringConverterDbContext;
-            _httpClient = httpClientFactory.CreateClient("StringHttpClient");
+            _repository = repository;
+            _translate = translate; 
         }
       
 
@@ -26,19 +32,30 @@ namespace StringConverter.Controllers
         {
             return View();
         }
-        
-       
+
+
+        //[HttpPost]
+        //[ActionName("Add")]
+        //public async Task<IActionResult> Add(AddRequest addRequest)
+        //{
+        //    var save = new TblConvertString
+        //    {
+        //        DataField = (await TranslateText(addRequest.InputText))!
+        //    };
+
+        //    _stringConverterDbContext.TblConvertStrings.Add(save);
+        //    _stringConverterDbContext.SaveChanges();
+        //    return RedirectToAction(nameof(GetText));
+        //}  
+
         [HttpPost]
         [ActionName("Add")]
         public async Task<IActionResult> Add(AddRequest addRequest)
         {
-            var save = new TblConvertString
-            {
-                DataField = (await TranslateText(addRequest.InputText))!
-            };
+            var save = new TblConvertString();
+            save.DataField = await _translate.TranslateText(addRequest.InputText);
 
-            _stringConverterDbContext.TblConvertStrings.Add(save);
-            _stringConverterDbContext.SaveChanges();
+            _repository.Add(save);
             return RedirectToAction(nameof(GetText));
         } 
 
@@ -52,27 +69,7 @@ namespace StringConverter.Controllers
 
             return View(getData);
         }
-              
       
-        async Task<string?> TranslateText(string text)
-        {
-            //TranslationResult res= new TranslationResult();
-            try
-            {
-                var result = await _httpClient.GetFromJsonAsync<TranslationResult>($"https://api.funtranslations.com/translate/leetspeak.json?text={text}");
-
-                return result?.Contents?.Translated;
-            }
-            catch (Exception ex)
-            {
-            }
-
-            return null;
-        }                 
-         
     }
-
-    
-
    
 }
