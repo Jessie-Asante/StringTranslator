@@ -13,7 +13,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IStringConverterRepository, StringConverterRepository>();
+builder.Services.ApplicationServices();
 builder.Services.AddScoped<ITranslateText,TranslateTexts>();
 builder.Services.AddHttpClient("StringHttpClient");
 var app = builder.Build();
