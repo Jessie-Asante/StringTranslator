@@ -51,24 +51,41 @@ namespace StringConverter.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> Add(AddRequest addRequest)
+        public async Task<IActionResult?> Add(AddRequest addRequest)
         {
-            var save = new TblConvertString();
-            save.DataField = await _translate.TranslateText(addRequest.InputText);
+            if (ModelState.IsValid)
+            {
+                var save = new TblConvertString();
+                save.DataField = await _translate.TranslateText(addRequest.InputText);
 
-            _repository.Add(save);
-            return RedirectToAction(nameof(GetText));
+                _repository.Add(save);
+                return RedirectToAction(nameof(GetText));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Text Addition Failed");
+            }
+            return null;
         }
 
         [HttpGet]
-        public IActionResult GetText()
-        {
-            var getData = new GetViewModel();
-            var gets = (from get in _stringConverterDbContext.TblConvertStrings
-                        select new TblConvertString { DataField = get.DataField }); 
-            getData.TblConvertStrings = gets;
 
-            return View(getData);
+        public IActionResult? GetText()
+        {
+            if (ModelState.IsValid)
+            {
+                var getData = new GetViewModel();
+                var gets = (from get in _stringConverterDbContext.TblConvertStrings
+                            select new TblConvertString { DataField = get.DataField });
+                getData.TblConvertStrings = gets;
+
+                return View(getData);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Failed to fetch text");
+            }
+            return null;
         }
       
     }

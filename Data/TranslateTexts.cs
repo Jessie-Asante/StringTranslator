@@ -36,6 +36,6 @@ namespace StringConverter.Data
 
     public interface ITranslateText
     {
-        Task<string?> TranslateText(string text);
+        Task<string?> TranslateText(string? text);
     }
 }
