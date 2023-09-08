@@ -15,13 +15,11 @@ namespace StringConverter.Controllers
     [Authorize]
     public class CRUDController : Controller
     {
-        private readonly StringConverterDbContext _stringConverterDbContext;
         private readonly IStringConverterRepository _repository;
         private readonly ITranslateText _translate;
 
-        public CRUDController(StringConverterDbContext stringConverterDbContext, IStringConverterRepository repository ,ITranslateText translate) 
+        public CRUDController( IStringConverterRepository repository ,ITranslateText translate) 
         {
-            _stringConverterDbContext = stringConverterDbContext;
             _repository = repository;
             _translate = translate; 
         }
@@ -34,20 +32,7 @@ namespace StringConverter.Controllers
         }
 
 
-        //[HttpPost]
-        //[ActionName("Add")]
-        //public async Task<IActionResult> Add(AddRequest addRequest)
-        //{
-        //    //var save = new TblConvertString
-        //    //{
-        //    //    DataField = (await TranslateText(addRequest.InputText))!
-        //    //};
-        //    var save = new TblConvertString();
-        //    save.DataField = await _translate.TranslateText(addRequest.InputText);
-        //    _stringConverterDbContext.TblConvertStrings.Add(save);
-        //    _stringConverterDbContext.SaveChanges();
-        //    return RedirectToAction(nameof(GetText));
-        //}
+        
 
         [HttpPost]
         [ActionName("Add")]
