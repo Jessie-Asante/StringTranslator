@@ -8,6 +8,7 @@ namespace StringConverter.Data.Interfaces
         TblConvertString Delete(TblConvertString Guid);
         TblConvertString Get(int id);
         IEnumerable<TblConvertString> GetAll();
+        Task<IEnumerable<TblConvertString>> GetAllAsync(FormattableString query);
         TblConvertString Update(TblConvertString update);
     }
 }

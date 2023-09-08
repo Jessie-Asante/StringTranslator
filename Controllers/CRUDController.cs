@@ -70,13 +70,13 @@ namespace StringConverter.Controllers
 
         [HttpGet]
 
-        public IActionResult? GetText()
+        public async Task<IActionResult?> GetText()
         {
             if (ModelState.IsValid)
             {
                 var getData = new GetViewModel();
-                var gets = (from get in _stringConverterDbContext.TblConvertStrings
-                            select new TblConvertString { DataField = get.DataField });
+                FormattableString fetch = $"[dbo].[spcGetTranslatedText]";
+                var gets = await _repository.GetAllAsync(fetch);             
                 getData.TblConvertStrings = gets;
 
                 return View(getData);
