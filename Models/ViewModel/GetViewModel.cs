@@ -4,6 +4,6 @@ namespace StringConverter.Models.ViewModel
 {
     public class GetViewModel
     {
-        public IQueryable<TblConvertString> TblConvertStrings { get;set; }
+        public IEnumerable<TblConvertString> TblConvertStrings { get;set; }
     }
 }

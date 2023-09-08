@@ -1,4 +1,5 @@
-﻿using StringConverter.Data.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using StringConverter.Data.Interfaces;
 using StringConverter.Models.Domain;
 
 namespace StringConverter.Data.Repositories
@@ -31,6 +32,10 @@ namespace StringConverter.Data.Repositories
             return _context.TblConvertStrings;
         }
 
+        public async Task<IEnumerable<TblConvertString>> GetAllAsync(FormattableString query)
+        {
+            return await _context.Set<TblConvertString>().FromSqlInterpolated(query).ToListAsync();
+        }
         public TblConvertString Get (int id)
         {
             return _context.TblConvertStrings.Find(id);
@@ -43,5 +48,7 @@ namespace StringConverter.Data.Repositories
             _context.SaveChanges();
             return update;
         }
+
+       
     }
 }
